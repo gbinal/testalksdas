@@ -1,0 +1,231 @@
+,Container Type,Property,Data Type,Property Definition,Attribute,Abstract,Inline,Reference,Substitution Group Head,Augmentation of Type,Keywords,Example Content,Usage Info,Source,Comments,Facets List
+ID,(qualified type),(qualified property),(qualified type),,(default = FALSE),(default = FALSE),(default = TRUE),(default = FALSE),(qualified property),(qualified type),,,,(optional),,
+1,,em:Notification,em:NotificationType,"A written or printed notice or announcement intended to inform a specific audience of a message. A notification may only contain one message.
+
+",FALSE,FALSE,TRUE,FALSE,,,,,"(1) MUST include the xmlns attribute referencing the CAP URI as the namespace, e.g.: <cap:alertxmlns:cap=""http://www.incident.com/cap/1.1""> [sub-elements]</cap:alert> 
+(2) In addition to the specified subelements, MAY contain one or more <info> blocks.
+(3) Required
+(4) The distribution type applies to the function of the content objects as a set. Those cases where payloads have different distribution types should be clustered in different distribution elements.
+(5) The type MUST be a properly formed -escaped if necessary- XML string.",cap:alert,,
+2,em:NotificationType,em:NotificationConfidentialityText,nc:TextType,Confidentiality of a notification.,FALSE,FALSE,TRUE,FALSE,,,,,"(1) Optional field, may only be used once and only once.
+(2) MUST be a properly formed -escaped if necessary- XML string.",de:confidentiality,,
+3,em:NotificationType,em:NotificationID,niem-xsd:string,"The identifier of the alert message. A number or string uniquely identifying this message, assigned by the sender.",FALSE,FALSE,TRUE,FALSE,,,,,"(1) MUST NOT include spaces, commas or restricted characters (< and &)
+(2) Required",cap:Message ID,,
+4,em:NotificationType,em:NotificationFunctionCategoryCode,em:NotificationFunctionCategoryCodeType,The code  value denoting the nature of the notification message. ,FALSE,FALSE,TRUE,FALSE,,,,"Alert, Update, Cancel, Ack, Error",(1) Required,cap:msgType,,
+5,em:NotificationType,em:NotificationKeywordText,nc:TextType,A significant word or phrase related to the notification message. It may determine message routing decisions. ,FALSE,FALSE,TRUE,FALSE,,,,"Examples of things <keyword> might be used to describe include event type, event etiology, incident ID, and response type.","1. The list and associated value(s) is in the form:
+   <keyword>
+      <valueListUrn>valueListUrn</valueListUrn>
+      <value>value</value>
+   </keyword>
+where the content of <valueListUrn> is the Uniform Resource Name of a published list of values and definitions, and the content of <value> is a string (which may represent a number) denoting the value itself.
+2. Multiple instances of the <value>, MAY occur with a single <valueListUrn> within the <keyword> container.
+3. Multiple instances of <keyword> MAY occur within a single <EDXLDistribution> container.
+(4) Optional",de:keyword,,
+6,em:NotificationType,em:NotificationLanguageCode,iso_639-3:LanguageCodeType,"The code denoting the primary language used in the payload or body of the notification message.
+",FALSE,FALSE,TRUE,FALSE,,,,"FR, EN","(1) Code Values: Natural language identifier per [RFC 3066].
+(2) If not present, an implicit default value of ""en-US"" SHALL be assumed.
+(3) A null value in this element SHALL be considered equivalent to “en-US.”
+(4) Optional","cap:language
+de:language",,
+7,em:NotificationType,em:NotificationOriginationDateTime,nc:DateTime//need Type,The originating date and time of a notification.,FALSE,FALSE,TRUE,FALSE,,,,2004-08-01T16:49:00-07:00,"(1) Required, must be used once and only once
+(2) The Date Time combination must include the offset time for time zone",de:datetimesent,,
+8,em:NotificationType,em:NotificationOriginator,abstract,"Unique organization, unit, or individual that is the originator of the notification.",FALSE,TRUE,TRUE,FALSE,,,,,,,,
+9,em:NotificationType,em:NotificationOriginatorContactEmail,niem-xsd:string,"The unique email identifier of the sender. Uniquely identifies human parties, systems, services, or devices that are all potential senders of the distribution message in the form actor@domain-name. Uniqueness of the domain-name is guaranteed through use of the Internet Domain Name System, and uniqueness of the actor name enforced by the domain owner.",FALSE,FALSE,TRUE,FALSE,em:NotificationOriginator,,,dispatcher@example.gov,"(1) In the form actor@domain-name.
+(2) Uniqueness of the domain-name is guaranteed through use of the Internet Domain Name System, and uniqueness of the actor name enforced by the domain owner.
+(3) The identifier MUST be a properly formed -escaped if necessary- XML string.
+(4) Required, must be used once and only once",de:senderID,,
+10,em:NotificationType,em:NotificationOriginatorIdentification,nc:IndentificationType ,"The identifier for the sender of the alert message. Guaranteed by assigner to be unique globally; e.g., may be based on an Internet domain name.
+",FALSE,FALSE,TRUE,FALSE,em:NotificationOriginator,,,,"(1) Guaranteed by assigner to be unique globally; e.g., may be based on an Internet domain name 
+(2) MUST NOT include spaces, commas or restricted characters (< and &)
+(3) Required",cap:senderID,,
+11,em:NotificationType,em:NotificationOriginatorNameText,nc:TextType,The text naming the originator of the alert message. This may be the name of an individual or an organization. This is the human-readable name of the agency or authority issuing this notification.,FALSE,FALSE,TRUE,FALSE,em:NotificationOriginator,,,,(1) Optional,cap:senderName,,
+12,em:NotificationType,em:NotificationOriginatorRoleDescriptionText,nc:TextType,"The description of the message originator's role, as it may determine message distribution and presentation decisions. The list and associated value(s) is derived from the Uniform Resource Name of a published list of values and definitions, and the content is a string (which may represent a number) denoting the value itself.
+",FALSE,FALSE,TRUE,FALSE,,,,,"(1) The list and associated value(s) is in the form:
+   <originatorRole>
+      <valueListUrn>valueListUrn</valueListUrn>
+      <value>value</value>
+   </originatorRole>
+where the content of <valueListUrn> is the Uniform Resource Name of a published list of values and definitions, and the content of <value> is a string (which may represent a number) denoting the value itself.
+(2) Multiple instances of the <value>, MAY occur with a single <valueListUrn> within the <originatorRole> container.
+(3) Multiple instances of <originatorRole> MAY occur within a single notification.
+(4) Optional, may use multiple",de:senderRole,,
+13,em:NotificationType,em:NotificationOriginatorRoleIdentification,nc:IdentificationType,"The identifier of the message originator's role, as it may determine message distribution and presentation decisions. The list and associated value(s) is derived from the Uniform Resource Name of a published list of values and definitions, and the content is a string (which may represent a number) denoting the value itself.
+",FALSE,FALSE,TRUE,FALSE,,,,,,,,
+14,em:NotificationType,em:NotificationRecipient,abstract,"Organization, unit, or individual that is the recipient of the notification.",FALSE,TRUE,TRUE,FALSE,,,,,,de:consumerRole,,
+15,em:NotificationType,em:NotificationRecipientContactEmail,niem-xsd:string,"The unique email identifier of the recipient. Uniquely identifies human parties, systems, services, or devices that are all potential recipients of the distribution message in the form actor@domain-name. Uniqueness of the domain-name is guaranteed through use of the Internet Domain Name System, and uniqueness of the actor name enforced by the domain owner.",FALSE,FALSE,TRUE,FALSE,em:NotificationRecipient,,,recipient@example.gov,"(1) In the form actor@domain-name.
+(2) Uniqueness of the domain-name is guaranteed through use of the Internet Domain Name System, and uniqueness of the actor name enforced by the domain owner.
+(3) The identifier MUST be a properly formed -escaped if necessary- XML string.
+(4) Optional, must be used once and only once",,,
+16,em:NotificationType,em:NotificationRecipientIdentification,nc:IdentificationType,"The identifier for the recipient of the notification message, as it may determine message distribution and presentation decisions.  The list and associated value(s) is derived from the Uniform Resource Name of a published list of values and definitions, and the content is a string (which may represent a number) denoting the value itself.",FALSE,FALSE,TRUE,FALSE,em:NotificationRecipient,,,"Example: <valueListUrn>""http://www.dhs.gov/NiemRoleType""</valueListUrn>, <value>ICS Operations Branch</value> ","(1) The list and associated value(s) is in the form:
+   <consumerRole>
+      <valueListUrn>valueListUrn</valueListUrn>
+      <value>value</value>
+   </consumerRole>
+where the content of <valueListUrn> is the Uniform Resource Name of a published list of values and definitions, and the content of <value> is a string (which may represent a number) denoting the value itself.
+(2) Multiple instances of the <value>, MAY occur with a single <valueListUrn> within the notification message.
+(3) Multiple instances of <consumerRole> MAY occur within a single notification message.",,,
+17,em:NotificationType,em:NotificationRecipientNameText,nc:TextType,"The name text for the recipient of the notification message. This may be the name of an individual or an organization. It may determine message distribution and presentation decisions.  The list and associated value(s) is derived from the Uniform Resource Name of a published list of values and definitions, and the content is a string (which may represent a number) denoting the value itself.
+",FALSE,FALSE,TRUE,FALSE,em:NotificationRecipient,,,"Example: <valueListUrn>""http://www.dhs.gov/NiemRoleType""</valueListUrn>, <value>ICS Operations Branch</value> ","(1) The list and associated value(s) is in the form:
+   <consumerRole>
+      <valueListUrn>valueListUrn</valueListUrn>
+      <value>value</value>
+   </consumerRole>
+where the content of <valueListUrn> is the Uniform Resource Name of a published list of values and definitions, and the content of <value> is a string (which may represent a number) denoting the value itself.
+(2) Multiple instances of <consumerRole> MAY occur within a single notification message.",,,
+18,em:NotificationType,em:NotificationRecipientRoleDescriptionText,nc:TextType,"The role description of the recipient of the notification message. It may determine message distribution and presentation decisions.  The list and associated value(s) is derived from the Uniform Resource Name of a published list of values and definitions, and the content is a string (which may represent a number) denoting the value itself.
+",FALSE,FALSE,TRUE,FALSE,,,,"Example: <valueListUrn>""http://www.dhs.gov/NiemRoleType""</valueListUrn>, <value>ICS Operations Branch</value> ","(1) The list and associated value(s) is in the form:
+   <consumerRole>
+      <valueListUrn>valueListUrn</valueListUrn>
+      <value>value</value>
+   </consumerRole>
+where the content of <valueListUrn> is the Uniform Resource Name of a published list of values and definitions, and the content of <value> is a string (which may represent a number) denoting the value itself.
+(2) Multiple instances of <consumerRole> MAY occur within a single notification message.",,,
+19,em:NotificationType,em:NotificationRecipientRoleIdentification,nc:IndentificationType,"The role identifier for the recipient of the notification message. It may determine message distribution and presentation decisions.  The list and associated value(s) is derived from the Uniform Resource Name of a published list of values and definitions, and the content is a string (which may represent a number) denoting the value itself.
+",FALSE,FALSE,TRUE,FALSE,,,,,,,,
+20,em:NotificationType,em:NotificationSource,abstract,"The specific source of this alert; e.g., an operator or a specific device.",FALSE,TRUE,TRUE,FALSE,,,,,(1) Optional,cap:Operator/DeviceID,,
+21,em:NotificationType,em:NotificationSourceID,niem-xsd:string,"The identification string of the particular source of this alert; e.g., an operator or a specific device.",FALSE,FALSE,TRUE,FALSE,em:NotificationSource,,,,(1) Optional,,,
+22,em:NotificationType,em:NotificationSourceNameText,nc:TextType,"The name, in text, of particular source of this alert; e.g., an operator or a specific device.",FALSE,FALSE,TRUE,FALSE,em:NotificationSource,,,,(1) Optional,,,
+23,,em:NotificationDistributionScope,em:NotificationDistributionScopeType,The intended level of distribution of the notification message.,FALSE,FALSE,TRUE,FALSE,,,,,,,,
+24,em:NotificationDistributionScopeType,em:NotificationDistributionScopeCategoryCode,em:NotificationDistributionScopeCategoryCodeType,The category code denoting the intended level of distribution of the notification message.,FALSE,FALSE,TRUE,FALSE,,,,,,cap:Scope,,
+25,em:NotificationDistributionScopeType,em:AlertDistributionScopeAudienceDescriptionText,nc:TextType,The text describing the intended audience of the alert message.,FALSE,FALSE,TRUE,FALSE,,,,,,cap:Audience,,
+26,,em:NotificationTargetLocationAugmentation,em:NotificationTargetLocationAugmentationType,Additional information related to the target location of the notification.,FALSE,FALSE,TRUE,FALSE,,nc:LocationType,,,,,,
+27,em:NotificationTargetLocationAugmentationType,nc:AreaPolygonGeographicCoordinate,nc:TwoDimensionalGeographicCoordinateType,"The paired values of points defining a polygon that delineates the affected area of the alert message. The geographic polygon is represented by a whitespace-delimited list of [WGS 84] coordinate pairs.
+",FALSE,FALSE,TRUE,FALSE,,,,,"(1) Code Values: The geographic polygon is represented by a whitespace-delimited list of [WGS 84] coordinate pairs. (See WGS-84 Note at end of this section.)
+(2) The first and last pairs of coordinates MUST be the same. 
+(3) See Coordinate Precision Note at end of this section.
+(4) Multiple instances MAY occur within an <area>.",,,
+28,em:NotificationTargetLocationAugmentationType,geo:CircleByCenterPoint,geo:CircleByCenterPointType,"The paired values of a point and radius delineating the affected area of the alert message. The circular area is represented by a central point given as a [WGS- 84] coordinates pair followed by a space character and a radius value in kilometers.
+",FALSE,FALSE,TRUE,FALSE,,,,,"(1) Code Values: The circular area is represented by a central point given as a [WGS- 84] coordinates pair followed by a space character and a radius value in kilometers. (See WGS-84 Note at end of this section.)
+(2) See Coordinate Precision Note at end of this section.
+(3) Multiple instances MAY occur within an <area>.",,,
+29,,em:NotificationStatus,em:NotificationStatusType,"The code denoting the appropriate handling of the notification message; identifies if the notification is an actual event, test, exercise or internal system function.",FALSE,FALSE,TRUE,FALSE,,,,"Event, Test, Exercise, System",,,,
+30,em:NotificationStatusType,em:NotificationStatusCode,em:NotificationStatusCodeType,"The actionability of the message. 
+",FALSE,FALSE,TRUE,FALSE,,,,,(1) The status MUST be a properly formed -escaped if necessary- XML string.,,,
+31,,em:NotificationDetails,em:NotificationDetailsType,The container for all human-readable text describing a notification. ,FALSE,FALSE,TRUE,FALSE,,,,,,,,
+32,em:NotificationDetailsType,em:NotificationDetailsDocument,nc:DocumentType,The human-readable text describing the notification. ,FALSE,FALSE,TRUE,FALSE,,,,,(1) MUST be a properly formed -escaped if necessary- XML string. ,,,
+33,em:NotificationDetailsType,em:NotificationDetailsKeywordText,nc:TextType,"A significant word or phrase that describes the notification message. It may determine message routing decisions. Examples of things <keyword> might be used to describe include event type, event etiology, incident ID and response type.",FALSE,FALSE,TRUE,FALSE,,,,"Examples of things <keyword> might be used to describe include event type, event etiology, incident ID and response type.","(1) The list and associated value(s) is in the form:
+   <keyword>
+      <valueListUrn>valueListUrn</valueListUrn>
+      <value>value</value>
+   </keyword>
+where the content of <valueListUrn> is the Uniform Resource Name of a published list of values and definitions, and the content of <value> is a string (which may represent a number) denoting the value itself.
+(2) Multiple instances of the <value>, MAY occur with a single <valueListUrn> within the <keyword> container.
+(3) Multiple instances of <keyword> MAY occur within a single <EDXLDistribution> container.",,,
+34,em:NotificationDetailsType,em:NotificationDetailsIncidentID,niem-xsd:string,"The group listing naming the referent incident(s) of the alert message. Used to collate multiple messages referring to different aspects of the same incident
+",FALSE,FALSE,TRUE,FALSE,,,,"""CAP message from FEMA"", ""Map of affected area"" or ""Photo of missing child"".","If multiple incident identifiers are referenced, they SHALL be separated by whitespace. Incident names including whitespace SHALL be surrounded by double-quotes                                                                                                          ",,,
+35,em:NotificationDetailsType,em:NotificationDetailsIncidentDescriptionText,nc:TextType,Narrative text desribing the incident which triggered the notification message to be distributed.,FALSE,FALSE,TRUE,FALSE,,,,,,,,
+36,,em:Alert,em:AlertType,Notification of an incident or threat that may require a coordinated response or action. A type of NOTIFICATION.,FALSE,FALSE,TRUE,FALSE,,,,,"(1) Surrounds CAP alert message subelements.
+(2) MUST include the xmlns attribute referencing the CAP URI as the namespace, e.g.: <cap:alertxmlns:cap=""http://www.incident.com/cap/1.1""> [sub-elements]</cap:alert>
+(3) In addition to the specified subelements, MAY contain one or more <info> blocks.",,,
+37,,em:AlertCategoryCode,em:AlertCategoryCodeType,The code  value denoting the type of alert message.,,,,,,,,"Report, Update, Cancel, Request, Response, Dispatch, Ack, Error, SensorConfiguration, SensorControl, SensorStatus, SensorDetection","(1) MUST include the xmlns attribute referencing the CAP URI as the namespace, e.g.: <cap:alertxmlns:cap=""http://www.incident.com/cap/1.1""> [sub-elements]</cap:alert> 
+(2) In addition to the specified subelements, MAY contain one or more <info> blocks.
+(3) Required
+(4) The distribution type applies to the function of the content objects as a set. Those cases where payloads have different distribution types should be clustered in different distribution elements.
+(5) The type MUST be a properly formed -escaped if necessary- XML string.",cap:alert,,
+38,em:AlertType,em:AlertEffectiveDateTime,niem-xsd:dateTime,"The effective time of the information of the alert message.
+",FALSE,FALSE,TRUE,FALSE,,,,"e. g., “2002-05-24T16:49:00-07:00” for 24 May 2002 at 16:49 PDT","(1) The date and time is represented in [dateTime] format (e. g., “2002-05-24T16:49:00-07:00” for 24 May 2002 at 16: 49 PDT).
+(2) If this item is not included, the effective time SHALL be assumed to be the same as in <sent>.",,,
+39,em:AlertType,em:AlertExpirationDateTime,niem-xsd:dateTime,"The expiry time of the information of the alert message. If this item is not provided, each recipient is free to set its own policy as to when the message is no longer in effect.",FALSE,FALSE,TRUE,FALSE,,,,"e. g., “2002-05-24T16:49:00-07:00” for 24 May 2002 at 16:49 PDT","(1) The date and time is represented in [dateTime] format (e. g., “2002-05-24T16:49:00-07:00” for 24 May 2002 at 16:49 PDT).
+(2) If this item is not provided, each recipient is free to set its own policy as to when the message is no longer in effect.",,,
+40,em:AlertType,em:AlertHeadlineText,nc:TextType,"The text headline of the alert message. A brief human-readable headline. Note that some displays (for example, short messaging service devices) may only present this headline; it SHOULD be made as direct and actionable as possible while remaining short. 160 characters MAY be a useful target limit for headline length.",FALSE,FALSE,TRUE,FALSE,,,,,(1) 160 characters MAY be a useful target limit for headline length.,,,
+41,em:AlertType,em:AlertInstructionsDescriptionText,nc:TextType,"The text describing the recommended action to be taken by recipients of the alert message. An extended human readable instruction to targeted recipients. If different instructions are intended for different recipients, they should be represented by use of multiple <info> blocks.",FALSE,FALSE,TRUE,FALSE,,,,,"(1) If different instructions are intended for different recipients, they should be represented by use of multiple <info> blocks.",,,
+42,em:AlertType,em:AlertHandling,niem-xsd:string,The code denoting the special handling of the alert message,FALSE,TRUE,TRUE,FALSE,,,,,,,,
+43,em:AlertType,em:AlertHandlingText,nc:TextType,The code denoting the special handling of the alert message.,FALSE,FALSE,TRUE,FALSE,em:AlertHandling,,,,,,,
+44,em:AlertType,em:AlertHandlingIdentification,niem-xsd:string,The code denoting the special handling of the alert message,FALSE,FALSE,TRUE,FALSE,em:AlertHandling,,,,,,,
+45,em:AlertType,em:AlertReasonText,nc:TextType,The text describing the reason the alert message was distributed.,FALSE,FALSE,TRUE,FALSE,,,,,,,,
+46,,em:Alarm,em:AlarmType,"Alarm is an event that begins when an assembly of equipment or a device installed in or for commercial or residential premises, or other property, is triggered to transmit a signal, visibly, audibly, electronically, mechanically, or otherwise, to indicate the presence of a hazard requiring urgent attention and to which law enforcement, fire, and/or emergency medical services are expected to respond.",FALSE,FALSE,TRUE,FALSE,,,,,,,,
+47,em:AlarmType,em:AlarmAudibleIndicator,niem-xsd:boolean,True if an audible alarm is sounding; false if the alarm is inaudible.,FALSE,FALSE,TRUE,FALSE,,,,,,,,
+48,em:AlarmType,em:AlarmAudibleDescriptionCode,em:AlarmAudibleDescriptionCodeType,A code indicating whether the alarm is audible or silent.,FALSE,FALSE,TRUE,FALSE,,,,"""AUDIBLE"", ""SILENT""","This is a text (string) field, possible values ""AUDIBLE"", ""SILENT"", or left blank.",,,
+49,em:AlarmType,em:AlarmCallBackTelephoneNumber,nc:TelephoneNumberType,The phone number of the monitoring station.,FALSE,FALSE,TRUE,FALSE,,,,,Mandatory for New Events,,,
+50,em:AlarmType,em:AlarmEventCategoryText,nc:TextType,Text describing the type of the event which resulted in an alarm.,FALSE,FALSE,TRUE,FALSE,em:AlarmCategory,,,"Some of the possible values may include:
+·Burglary
+·Holdup / Panic / Duress
+·Fire based on smoke detector, heat detector etc
+·Medical Alarm
+·Defibrillator Alarm Activation
+·Communication Failure
+·Environmental Sensor
+·Fire Trouble - indicates potential equipment problem
+·Intrusion
+·Trouble
+·Open/Close (Treated as a Burglary)
+·Reset/Cancel  (Treated as a Burglary)
+·Phone Line (Communications Failure)
+·Tamper (Treated as a Burglary)
+·Restore (Treated as a Burglary)",Mandatory for New ALARM Events,,,
+51,em:AlarmType,em:AlarmDetailsText,nc:TextType,Additional details about the alarm event.,FALSE,FALSE,TRUE,FALSE,,,,"e.g., indicating the specific location of an alarm, mechanism that potentially triggered the alarm (such as keypad).",,,,
+52,em:AlarmType,em:AlarmDispatchActivity,nc:ActivityType,The appropriate response or activity needed when a dispatch agency is activated in response to an alarm.,FALSE,FALSE,TRUE,FALSE,,,,,,,,
+53,em:AlarmType,em:AlarmDispatchAgency,abstract,The name of the agency (PSAP:Public Safety Answering Point) being requested to respond to an alarm  (typically a police or fire department or central dispatch point) or responder.,FALSE,TRUE,TRUE,FALSE,,,,,,,,
+54,em:AlarmType,em:AlarmDispatchAgencyNameText,nc:TextType,The name of the agency (PSAP) being requested to respond to an alarm  (typically a police or fire department or central dispatch point) or responder.,FALSE,FALSE,TRUE,FALSE,em:AlarmDispatchAgency,,,,Organization Name has to be unique across all requestors and responders if we want to use it as an identifier. Otherwise a separate Organization Id will have to be used.,,,
+55,em:AlarmType,em:AlarmDispatchAgencyID,niem-xsd:string,An alphanumeric that uniquely identifies the agency (PSAP) being requested to respond to an alarm  (typically a police or fire department or central dispatch point) or responder.,FALSE,FALSE,TRUE,FALSE,em:AlarmDispatchAgency,,,,,,,
+56,em:AlarmType,em:AlarmMonitoringServiceProvider,abstract,Organization contacted when an alarm ,FALSE,TRUE,TRUE,FALSE,,,,,,,,
+57,em:AlarmType,em:AlarmMonitoringServiceProviderIdentification,niem-xsd:string,A unique number assigned to Central Station Monitoring Companies.,FALSE,FALSE,TRUE,FALSE,em:AlarmMonitoringServiceProvider,,,,,,,
+58,em:AlarmType,em:AlarmMonitoringServiceProviderNameText,nc:TextType,The name of the dispatch requesting agency (typically an alarm central station).,FALSE,FALSE,TRUE,FALSE,em:AlarmMonitoringServiceProvider,,,,,,,
+59,em:AlarmType,em:AlarmMonitoringServiceProviderReceiveDateTime,niem-xsd:dateTime,The date and time the monitoring station received the event based on the time zone of the site.,FALSE,FALSE,TRUE,FALSE,,,,, Organization Name has to be unique across all requestors if we want to use it as an identifier. Otherwise a separate Organization Id will have to be used.,,,
+60,em:AlarmType,em:AlarmRequestedResponseActionDescriptionText,nc:TextType,An action requested of an alarm event responder.,FALSE,FALSE,TRUE,FALSE,,nc:LocationType,,,,,,
+61,,em:AlarmLocationAugmentation,em:AlarmLocationAugmentationType,Additional information related to the location of the alarm.,FALSE,FALSE,TRUE,FALSE,,,,,,,,
+62,em:AlarmLocationAugmentationType,em:AlarmLocationDescriptionText,nc:TextType,"Necessary information about the site. Alert information that may be provided to the responder. e.g., electrified fence, dogs on property, loft apartment, multi-storied building, multiple warehouses on site, hazardous material etc.",FALSE,FALSE,TRUE,FALSE,,,,,,,,
+63,em:AlarmLocationAugmentationType,em:AlarmLocationCategoryText,nc:TextType,"Type of property that has been alarmed (e.g. commercial, residential).  Determines how alert is broadcast (e.g. holdup alarm if commercial, duress alarm if residential).",FALSE,FALSE,TRUE,FALSE,,,,,,,,
+64,em:AlarmLocationAugmentationType,em:AlarmLocationDirectionText,nc:TextType,Directions to the site.,FALSE,FALSE,TRUE,FALSE,,,,,,,,
+65,,em:AlarmConfirmation,em:AlarmConfirmationType,The container for information related to the confirmation of an alarm.,FALSE,FALSE,TRUE,FALSE,,,,,,,,
+66,em:AlarmConfirmationType,em:AlarmConfirmationMethodDescriptionText,nc:TextType,"General mechanism used to confirm the validity of the alarm. e.g., observed video, live audio, guard verified, call to premises etc.  If the alarm is confirmed through a call to the premise, then the details of this call are indicated in the Call to Premise text field",FALSE,FALSE,TRUE,FALSE,,,,,,,,
+67,em:AlarmConfirmationType,em:AlarmConfirmationCallPrivacyBypassPasscodeText,nc:TextType,The code allows the Public Safety Answering Point or monitoring station to bypass any call screening and directly reach the alarm subscriber.  ,FALSE,FALSE,TRUE,FALSE,,,,,,,,
+68,em:AlarmConfirmationType,em:AlarmConfirmationCallToPremisesIndicator,niem-xsd:boolean,True if an agency is to call the premise before arrival; false otherwise.,FALSE,FALSE,TRUE,FALSE,,,,,,,,
+69,em:AlarmConfirmationType,em:AlarmConfirmationCallToPremisesResultsDescriptionText,nc:TextType,This field represents the results of the actions taken by the alarm company to attempt to reach someone at the premise before notifying the Public Safety Answering Point.,FALSE,FALSE,TRUE,FALSE,,,,,,,,
+70,,em:AlarmPermit,em:AlarmPermitType,A permit for the alarm event site.,FALSE,FALSE,TRUE,FALSE,,,,,,,,
+71,em:AlarmPermit,em:PermitCategoryText,nc:TextType,"A kind of permit. In conjunction with the permit number, this indicates the type of alarm (e.g. fire, burglarly).",FALSE,FALSE,TRUE,FALSE,,,,,,,,
+72,em:AlarmPermit,em:PermitIdentification,nc:IdentificationType,The alarm permit number for the site.,FALSE,FALSE,TRUE,FALSE,,,,,,,,
+73,,em:NotificationIncidentAssociation,em:NotificationIncidentAssociationType,The group listing naming the referent incident(s) of the alert message. Used to collate multiple messages referring to different aspects of the same incident.,FALSE,FALSE,TRUE,FALSE,,,,,"(1) Used to collate multiple messages referring to different aspects of the same incident
+(2) If multiple incident identifiers are referenced, they SHALL be separated by whitespace. Incident names including whitespace SHALL be surrounded by double-quotes",,,
+74,em:NotificationIncidentAssociationType,em:NotificationReference,s:ReferenceType,"A reference to a previous distribution message. This element should appear at least once in any message which updates, cancels or otherwise refers to another message.Example: msgID0074,actor@domain-name,2004-08-01T16:49:00-07:00 ",FALSE,FALSE,TRUE,TRUE,,,,"Example: msgID0074,actor@domain-name,2004-08-01T16:49:00-07:00 ","1. The <distributionID> and <senderID> and <dateTimeSent> of the referenced previous message, concatenated with a comma delimiter.
+2. This element should appear at least once in any message which updates, cancels or otherwise refers to another message.
+3. MUST be a properly formed -escaped if necessary- XML string.",,,
+75,em:NotificationIncidentAssociationType,nc:IncidentReference,s:ReferenceType,"The group listing naming the referent incident(s) of the alert message. Used to collate multiple messages referring to different aspects of the same incident.
+",FALSE,FALSE,TRUE,TRUE,,,,,"(1) Used to collate multiple messages referring to different aspects of the same incident
+(2) If multiple incident identifiers are referenced, they SHALL be separated by whitespace. Incident names including whitespace SHALL be surrounded by double-quotes",,,
+76,,em:AlertIncidentAssociation,em:AlertIncidentAssociationType,The group listing identifyinh related alert messages and incidents. Used to collate multiple messages referring to different aspects of the same incident.,FALSE,FALSE,TRUE,FALSE,,,,,,,,
+77,em:AlertIncidentAssociationType,em:AlertReference,s:ReferenceType,The group listing naming the related alert messages. Used to collate multiple messages referring to different aspects of the same incident.,FALSE,FALSE,TRUE,TRUE,,,,,"(1) The extended message identifier(s) (in the form sender,identifier,sent) of an earlier CAP message or messages referenced by this one.
+(2) If multiple messages are referenced, they SHALL be separated by whitespace",,,
+78,em:AlertIncidentAssociationType,nc:IncidentReference,s:ReferenceType,The group listing naming the referent incident(s) of the alert message. Used to collate multiple messages referring to different aspects of the same incident.,FALSE,FALSE,TRUE,TRUE,,,,,"(1) Used to collate multiple messages referring to different aspects of the same incident
+(2) If multiple incident identifiers are referenced, they SHALL be separated by whitespace. Incident names including whitespace SHALL be surrounded by double-quotes.",,,
+79,,em:AlertSupplementaryDigitalResource,em:AlertSupplementaryDigitalResourceType,A digital representation of an object.,FALSE,FALSE,TRUE,FALSE,,,,,,,,
+80,em:AlertSupplementaryDigitalResourceType,em:BinaryChecksumDigest,niem-xsd:string,"The code representing the digital digest (“hash”) computed from the resource file.
+Calculated using the Secure Hash Algorithm (SHA-1) per [FIPS 180-2].",FALSE,FALSE,TRUE,FALSE,,,,,Calculated using the Secure Hash Algorithm (SHA-1) per [FIPS 180-2].,,,
+81,,em:AlertAffectedLocationAugmentation,em:AlertAffectedLocationAugmentationType,The text describing the affected area of the alert message.,FALSE,FALSE,TRUE,FALSE,,nc:LocationType,,,,,,
+82,em:AlertAffectedLocationAugmentationType,nc:AreaPolygonGeographicCoordinate,nc:TwoDimensionalGeographicCoordinateType,"The paired values of points defining a polygon that delineates the affected area of the alert message. Multiple instances MAY occur within an <area>.
+",FALSE,FALSE,TRUE,FALSE,,,,,"(1) Code Values: The geographic polygon is represented by a whitespace-delimited list of [WGS 84] coordinate pairs. (See WGS-84 Note at end of this section.)
+(2) The first and last pairs of coordinates MUST be the same. 
+(3) See Coordinate Precision Note at end of this section.
+(4) Multiple instances MAY occur within an <area>.",,,
+83,em:AlertAffectedLocationAugmentationType,geo:CircleByCenterPoint,geo:CircleByCenterPointType,"The paired values of a point and radius delineating the affected area of the alert message. Multiple instances MAY occur within an <area>.
+",FALSE,FALSE,TRUE,FALSE,,,,,"(1) Code Values: The circular area is represented by a central point given as a [WGS- 84] coordinates pair followed by a space character and a radius value in kilometers. (See WGS-84 Note at end of this section.)
+(2) See Coordinate Precision Note at end of this section.
+(3) Multiple instances MAY occur within an <area>.",,,
+84,em:AlertAffectedLocationAugmentationType,nc:LocationAltitudeMeasure,nc:LengthMeasureType,"The specific or minimum altitude of the affected area of the alert message (OPTIONAL). If used with the <ceiling> element this value is the lower limit of a range. Otherwise, this value specifies a specific altitude. The altitude measure is in feet above mean sea level per the [WGS- 84] datum.",FALSE,FALSE,TRUE,FALSE,,,,,"(1) If used with the <ceiling> element this value is the lower limit of a range. Otherwise, this value specifies a specific altitude.
+(2) The altitude measure is in feet above mean sea level per the [WGS- 84] datum.",,,
+85,em:AlertAffectedLocationAugmentationType,em:Ceiling,nc:LengthMeasureType,"The maximum altitude of the affected area of the alert message (conditional).
+",FALSE,FALSE,TRUE,FALSE,,,,,(1) MUST NOT be used except in combination with the <altitude> element                                                                          (2) The ceiling measure is in feet above mean sea level per the [WGS- 84] datum.,,,
+86,,em:AlertEventDetails,em:AlertEventDetailsType,The container for all component parts of the info sub-element of the alert message. Multiple occurrences are permitted within a single <alert>,FALSE,FALSE,TRUE,FALSE,,,,,"(1) Multiple occurrences are permitted within a single <alert>. If targeting of multiple ""info"" blocks in the same language overlaps, information in later blocks may expand but may not override the corresponding values in earlier ones. Each set of ""info"" blocks containing the same language identifier SHALL be treated as a separate sequence.
+(2) In addition to the specified subelements, MAY contain one or more <resource> blocks and/or one or more <area> blocks.",,,
+87,em:AlertEventDetailsType,em:AlertEventDetailsAudienceDescriptionText,nc:TextType,The text describing the intended audience of the alert message.,FALSE,FALSE,TRUE,FALSE,,,,,,,,
+88,em:AlertEventDetailsType,em:AlertEventDetailsCategoryCode,em:AlertEventDetailsCategoryCodeType ,The code denoting the category of the subject event of the alert message. ,FALSE,FALSE,TRUE,FALSE,em:AlertEventDetailsCategory,,,,(1) Multiple instances MAY occur within a single <info> block.,,,
+89,em:AlertEventDetailsType,em:AlertEventDetailsCertaintyCode,em:AlertEventDetailsCertaintyCodeType ,The code denoting the certainty of the subject event of the alert message.,FALSE,FALSE,TRUE,FALSE,em:AlertEventDetailsCertainty,,,,"(1) For backward compatibility with CAP 1.0, the deprecated value of “Very Likely” SHOULD be treated as equivalent to “Likely.” ",,,
+90,em:AlertEventDetailsType,em:AlertEventDetailsDescriptionText,nc:TextType,The human-readable text describing the incident/event/situation associated with the Alert message.,FALSE,FALSE,TRUE,FALSE,,,,,(1) MUST be a properly formed -escaped if necessary- XML string.,,,
+91,em:AlertEventDetailsType,em:AlertEventDetailsHeadlineText,nc:TextType,"The text headline of the alert message. A brief human-readable headline. Note that some displays (for example, short messaging service devices) may only present this headline; it SHOULD be made as direct and actionable as possible while remaining short. 160 characters MAY be a useful target limit for headline length.",FALSE,FALSE,TRUE,FALSE,,,,,"Note that some displays (for example, short messaging service devices) may only present this headline; it SHOULD be made as direct and actionable as possible while remaining short. 160 characters MAY be a useful target limit for headline length.",,,
+92,em:AlertEventDetailsType,em:AlertEventDetailsInstructionsDescriptionText,nc:TextType,"The text describing the recommended action to be taken by recipients of the alert message. An extended human readable instruction to targeted recipients. (If different instructions are intended for different recipients, they should be represented by use of multiple <info> blocks. See CAP specification for details.)",FALSE,FALSE,TRUE,FALSE,,,,,"(1) An extended human readable instruction to targeted recipients. (If different instructions are intended for different recipients, they should be represented by use of multiple <info> blocks.)",,,
+93,em:AlertEventDetailsType,em:AlertEventDetailsOnsetDateTime,niem-xsd:dateTime,"The expected time of the beginning of the subject event of the alert message.
+",FALSE,FALSE,TRUE,FALSE,,,,example: “2002-05-24T16:49:00-07:00” for 24 May 2002 at 16: 49 PDT,"(1) The date and time is represented in [dateTime] format (e. g., “2002-05-24T16:49:00-07:00” for 24 May 2002 at 16: 49 PDT).",,,
+94,em:AlertEventDetailsType,em:AlertEventDetailsResponseRecommendationCode,em:AlertEventDetailsResponseRecommendationCodeType ,The code denoting the type of action recommended for the target audience.,FALSE,FALSE,TRUE,FALSE,em:AlertEventDetailsResponseRecommendation,,,,(1) Multiple instances MAY occur within a single <info> block.,,,
+95,em:AlertEventDetailsType,em:AlertEventDetailsSystemRecordID,niem-xsd:string,"A system specific code identifying the event type of the alert message.
+",FALSE,FALSE,TRUE,FALSE,,,,"e.g., SAME, FIPS, ZIP","(1) Any system-specific code for event typing, in the form:
+<eventCode>
+<valueName>valueName</valueName>
+<value>value</value>
+</eventCode>
+where the content of “valueName” is a userassigned string designating the domain of the code, and the content of “value” is a string (which may represent a number) denoting the value itself (e.g., valueName=""SAME"" and value=""CEM"").
+(2) Values of “valueName” that are acronyms SHOULD be represented in all capital letters without periods (e.g., SAME, FIPS, ZIP).
+(3) Multiple instances MAY occur within a single <info> block.",,,
+96,em:AlertEventDetailsType,em:AlertEventDetailsUrgencyCode,em:AlertEventDetailsUrgencyCodeType            ,"The code denoting the urgency of the subject event of the alert message.
+",FALSE,FALSE,TRUE,FALSE,em:AlertEventDetailsUrgency,,,,,,,
+97,em:AlertEventDetailsType,em:AlertEventDetailsSeverityCode,em:AlertEventDetailsSeverityCodeType  ,The code denoting the severity of the subject event of the alert message. ,FALSE,FALSE,TRUE,FALSE,,,,"Extreme, Severe, Moderate, Minor, Unknown","(1)  The “urgency”, “severity”, and “certainty” elements collectively distinguish less emphatic from more emphatic messages.",,,YES
+98,em:AlertEventDetailsType,em:AlertEventDetailsTypeCode,em:AlertEventDetailsTypeCodeType,The code denoting the category of the subject event of the alert message.,FALSE,FALSE,TRUE,FALSE,,,,,Multiple instances MAY occur within a single <info> block.,,,
